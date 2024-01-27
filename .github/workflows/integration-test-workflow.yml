@@ -1,0 +1,28 @@
+name: Makefile CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v5.0.0
+      with:
+        # Version range or exact version of Python or PyPy to use, using SemVer's version range syntax. Reads from .python-version if unset.
+        python-version: 3.11
+
+    - name: Install dependencies
+      run: pip install -r backend/requirements.txt
+
+    - name: Run check
+      run: make integration/test
+
